@@ -4,30 +4,23 @@ services:
   kapacitor:
     image: kapacitor:1.2-alpine
     container_name: kapacitor
-    ports:
-      - "9092:9092"
+    network_mode: "host"
     depends_on:
       - telegraf
-    links:
-      - influx
 
   telegraf:
     image: telegraf:1.2-alpine
     container_name: telegraf
     depends_on:
       - influx
-    network_mode: "service:influx"
+    network_mode: "host"
     volumes: 
       - "${PWD}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
 
   influx:
     image: influxdb:1.2-alpine
     container_name: influx
-    expose:
-      - "8086"
-    ports: 
-      - "8083:8083"
-      - "8086:8086"
+    network_mode: "host"
     volumes: 
       - "${PWD}/influxdb.conf:/etc/influxdb/influxdb.conf:ro"
 
@@ -36,10 +29,7 @@ services:
     container_name: chronograf
     depends_on:
       - influx    
-    links:
-      - influx
-    ports:
-      - "10000:10000"
+    network_mode: "host"
     volumes: 
       - "${PWD}/chronograf.conf:/etc/chronograf/chronograf.conf:ro"
 
