@@ -2,14 +2,14 @@ version: '2'
 
 services:
   kapacitor:
-    image: kapacitor:1.2-alpine
+    image: kapacitor:1.2
     container_name: kapacitor
     network_mode: "host"
     depends_on:
       - telegraf
 
   telegraf:
-    image: telegraf:1.2-alpine
+    image: telegraf:1.2
     container_name: telegraf
     depends_on:
       - influx
@@ -18,7 +18,7 @@ services:
       - "${PWD}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
 
   influx:
-    image: influxdb:1.2-alpine
+    image: influxdb:1.2
     container_name: influx
     network_mode: "host"
     volumes: 
