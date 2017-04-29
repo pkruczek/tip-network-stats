@@ -2,5 +2,5 @@
 
 influxd &
 telegraf &
-chronograf &
-kapacitord
+kapacitord &
+chronograf 
