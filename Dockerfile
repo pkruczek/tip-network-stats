@@ -47,6 +47,8 @@ EXPOSE 10000
 COPY influxdb.conf /etc/influxdb/influxdb.conf
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 COPY kapacitor.conf /etc/kapacitor/kapacitor.conf
+COPY chronograf.conf /etc/chronograf/chronograf.conf
+COPY chronograf.db /chronograf/chronograf.db
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
