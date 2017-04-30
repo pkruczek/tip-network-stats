@@ -1,0 +1,51 @@
+// {alert_name}
+
+// metric: {alert_metric}
+// available_fields: [[other_telegraf_fields]]
+
+// TELEGRAF CONFIGURATION
+// [inputs.{plugin}]
+//   # full configuration
+
+// DEFINE: kapacitor define {alert_name} -type batch -tick {plugin}/{alert_name}.tick -dbrp telegraf.autogen
+// ENABLE: kapacitor enable {alert_name}
+
+// Parameters
+var info = 300
+var warn = 500
+var crit = 800
+var infoSig = 50
+var warnSig = 100
+var critSig = 100
+var period = 10s
+var every = 10s
+
+
+// Dataframe
+var data = stream
+  |from()
+    .database('telegraf')
+    .retentionPolicy('autogen')
+    .measurement('ping')
+    .groupBy('host')
+  |window()
+    .period(period)
+    .every(every)
+  |mean('average_response_ms')
+    .as("stat")
+    
+// Thresholds
+var alert = data
+  |eval(lambda: sigma("stat"))
+    .as('sigma')
+    .keep()
+  |alert()
+    .id('{{ .Level}}: {{ .Name }}/{{ index .Tags "host" }} ping is high  {{ index .Fields "stat" }}')
+    .message('{{ .ID }}:{{ index .Fields "stat" }}')
+    .info(lambda: "stat" > info OR "sigma" > infoSig)
+    .warn(lambda: "stat" > warn OR "sigma" > warnSig)
+    .crit(lambda: "stat" > crit OR "sigma" > critSig)
+
+// Alert
+alert
+  .log('/tmp/ping_log.txt')
