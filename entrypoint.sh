@@ -3,4 +3,5 @@
 influxd &
 telegraf &
 kapacitord &
-chronograf 
+sleep 3 && ./runKapacitorAlerts.sh
+chronograf

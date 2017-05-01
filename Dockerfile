@@ -47,10 +47,11 @@ EXPOSE 10000
 COPY influxdb.conf /etc/influxdb/influxdb.conf
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 COPY kapacitor.conf /etc/kapacitor/kapacitor.conf
-COPU pingAlert.tick /kapacitor/pingAlert.tick
+COPY pingAlert.tick /kapacitor/pingAlert.tick
 COPY chronograf.conf /etc/chronograf/chronograf.conf
 COPY chronograf.db /chronograf/chronograf.db
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x entrypoint.sh
+COPY runKapacitorAlerts.sh /runKapacitorAlerts.sh
+RUN chmod +x entrypoint.sh runKapacitorAlerts.sh
 ENTRYPOINT ["/entrypoint.sh"]

@@ -32,11 +32,11 @@ var data = stream
     .period(period)
     .every(every)
   |mean('average_response_ms')
-    .as("stat")
+    .as('stat')
     
 // Thresholds
 var alert = data
-  |eval(lambda: sigma("stat"))
+  |eval(lambda: sigma('stat'))
     .as('sigma')
     .keep()
   |alert()
