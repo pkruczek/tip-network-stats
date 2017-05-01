@@ -29,5 +29,21 @@ docker run --net=host -v $PWD/chronograf.db:/chronograf/chronograf.db -p 8083:80
 
 ```
 
+### Hints
+* Run image as named container
+```
+docker run --rm --net=host -p 8083:8083 -p 8086:8086 -p 9092:9092 -p 10000:10000 --name network-stats tip
+```
+
+* Log into the container
+```
+docker exec -ti network-stats /bin/bash
+```
+
+* Stop container
+```
+docker stop network-stats
+```
+
 [chronograf]: http://localhost:10000
 [Influx-admin]: http://localhost:8083
