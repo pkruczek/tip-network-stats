@@ -7,7 +7,7 @@
 // [inputs.{plugin}]
 //   # full configuration
 
-// DEFINE: kapacitor define {alert_name} -type batch -tick {plugin}/{alert_name}.tick -dbrp telegraf.autogen
+// DEFINE: kapacitor define {alert_name} -type batch -tick {plugin}/{alert_name}.tick -dbrptelegraf.autogen
 // ENABLE: kapacitor enable {alert_name}
 
 // Parameters
@@ -22,26 +22,34 @@ var every = 10s
 
 
 // Dataframe
-var data = stream
-  |from()
-    .database('telegraf')
-    .retentionPolicy('autogen')
-    .measurement('ping')
-    .groupBy('host')
-  |window()
-    .period(period)
-    .every(every)
-  |mean('average_response_ms')
-    .as('stat')
+//var data = stream
+  //|from()
+    //.measurement('ping')
+    //.groupBy('host')
+//  |window()
+    //.period(period)
+   // .every(every)
+//  |mean('average_response_ms')
+  //  .as('stat')
     
+var data = batch
+    |query('''
+        SELECT mean(average_response_ms) AS stat
+        FROM "telegraf"."autogen"."ping"
+    ''')
+        .period(period)
+        .every(every)
+        .groupBy('host')
+
+
 // Thresholds
 var alert = data
-  |eval(lambda: sigma('stat'))
+  |eval(lambda: sigma("stat"))
     .as('sigma')
     .keep()
   |alert()
-    .id('{{ .Level}}: {{ .Name }}/{{ index .Tags "host" }} ping is high  {{ index .Fields "stat" }}')
-    .message('{{ .ID }}:{{ index .Fields "stat" }}')
+    .id('{{ index .Tags "host"}} ping is high :')
+    .message('{{ .Level }} {{ .ID }}:{{ index .Fields "stat" }}')
     .info(lambda: "stat" > info OR "sigma" > infoSig)
     .warn(lambda: "stat" > warn OR "sigma" > warnSig)
     .crit(lambda: "stat" > crit OR "sigma" > critSig)

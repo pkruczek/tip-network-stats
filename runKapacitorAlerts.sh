@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 kapacitor define ping_alert \
-    -type stream \
+    -type batch \
     -tick kapacitor/pingAlert.tick \
-    -dbrp telegraf.default
+    -dbrp telegraf.autogen
+
+kapacitor enable ping_alert
