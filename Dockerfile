@@ -51,5 +51,7 @@ ENV INFLUX_CONFIG_PATH=/var/lib/influxdb/influxdb.conf \
     CHRONOGRAF_CONFIG_PATH=/var/lib/chronograf/chronograf.conf
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x entrypoint.sh /var/lib/kapacitor/runKapacitorAlerts.sh
+RUN chmod +x entrypoint.sh
+RUN chmod +x /var/lib/kapacitor/runKapacitorAlerts.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
