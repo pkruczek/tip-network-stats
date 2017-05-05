@@ -25,7 +25,7 @@ docker run --net=host -p 10000:10000 tip
 
 * Run with custom chronograf.db (saved dashboards in Chronograf)
 ```
-docker run --net=host -v $PWD/chronograf.db:/chronograf/chronograf.db -p 8083:8083 -p 8086:8086 -p 10000:10000 tip
+docker run --net=host -v $PWD/chronograf.db:/var/lib/chronograf/chronograf.db -p 8083:8083 -p 8086:8086 -p 10000:10000 tip
 
 ```
 

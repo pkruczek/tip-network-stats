@@ -32,14 +32,3 @@ services:
     network_mode: "host"
     volumes: 
       - "${PWD}/chronograf.conf:/etc/chronograf/chronograf.conf:ro"
-
-
-  # grafana:
-  #   image: grafana/grafana
-  #   container_name: grafana
-  #   depends_on:
-  #   - influx
-  #   links:
-  #     - influx
-  #   ports:
-  #     - "3000:3000"
