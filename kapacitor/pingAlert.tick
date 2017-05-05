@@ -11,7 +11,7 @@
 // ENABLE: kapacitor enable {alert_name}
 
 // Parameters
-var info = 5
+var info = 300
 var warn = 500
 var crit = 800
 var infoSig = 50
