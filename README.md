@@ -8,22 +8,32 @@ It contains following tools:
 * **Chronograf** - web application which provides the tools to visualize monitoring data
 * **Kapacitor** - framework for processing, monitoring, and alerting on time series data  
 
-### How to run and build Docker image?
+### How to get Docker image?
 
-#### Clone Git repository
+#### Pull from Docker repository
+```
+docker pull pkruczek/tip-network-stats
+```
+
+#### Or build on your own
+
+###### Clone Git repository
 
 ```
 git clone https://github.com/pkruczek/tip-network-stats.git
 ```
-#### Get into project directory
+###### Get into project directory
 ```
 cd tip-network-stats
 ```
-#### Build Docker image
+###### Build Docker image
 ```
 docker build -t tip-network-stats .
 ```
-#### Run Docker container
+
+### How to run Docker container?
+
+###### Run Docker container
 ```
 docker run --net=host -p 10000:10000 tip-network-stats
 ```
