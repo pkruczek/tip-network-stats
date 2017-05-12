@@ -1,12 +1,33 @@
 # Docker container collecting network stats - TIP Project
 
-### Run
+### How to run and build Docker image?
+
+#### Clone Git repository
+
 ```
-docker-compose up
+git clone https://github.com/pkruczek/tip-network-stats.git
 ```
+#### Get into project directory
+```
+cd tip-network-stats
+```
+#### Build Docker image
+```
+docker build -t tip .
+```
+#### Run Docker container
+```
+docker run --net=host -p 10000:10000 tip
+```
+Explanation:
+* `--net=host` - this flags set host's network as container network. It's required because docker creates dedicated network for containers.
+* `-p 10000:10000` - bind container's port 10000 to host's 10000. It allows to access Chronograf dashboards on [http://localhost:10000][chronograf]
 
 ### Access [Chronograf][chronograf]
 Chronograf is available on port 10000
+
+#### Custom Chronograf dashboard
+This image contains simple Chronograf dashboard prepared. 
 
 
 ### Access [InfluxDB Admin][influx-admin]
