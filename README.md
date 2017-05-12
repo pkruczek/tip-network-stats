@@ -1,7 +1,7 @@
 # Docker image collecting network stats - TIP Project
 
 ### Overview
-This is a Docker which allows to gather, visualize and monitor network data.
+This is a Docker image which allows to gather, visualize and monitor network data.
 It contains following tools:
 * **InfluxDB** - time series database which stores network data
 * **Telegraf** - a tool which gathers data and pushes it to InfluxDB
