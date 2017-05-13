@@ -1,5 +1,8 @@
 version: '2'
-
+# This is an EXPERIMENTAL version of Docker compose. It runs four containers, separate for each component
+# Team was using this config to test technology stack
+# docker-compose.yml should be ignored, only STANDALONE version is ready for use now
+# Maybe it will be improved later
 services:
   kapacitor:
     image: kapacitor:1.2
@@ -14,21 +17,21 @@ services:
     depends_on:
       - influx
     network_mode: "host"
-    volumes: 
+    volumes:
       - "${PWD}/telegraf.conf:/etc/telegraf/telegraf.conf:ro"
 
   influx:
     image: influxdb:1.2
     container_name: influx
     network_mode: "host"
-    volumes: 
+    volumes:
       - "${PWD}/influxdb.conf:/etc/influxdb/influxdb.conf:ro"
 
   chronograf:
     image: chronograf
     container_name: chronograf
     depends_on:
-      - influx    
+      - influx
     network_mode: "host"
-    volumes: 
+    volumes:
       - "${PWD}/chronograf.conf:/etc/chronograf/chronograf.conf:ro"
