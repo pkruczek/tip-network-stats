@@ -62,6 +62,42 @@ same directory)
 #### Access [InfluxDB Admin][influx-admin]
 InfluxDB Admin is available on port 8083 (run with flag `-p 8083:8083`)
 
+###### Seting up Kapacitor
+example kapacitor alert is prepared in pingAlert.tick file it check average ping to 8.8.8.8 host in 10 s periods and check if is not higher then 300 ms INFO , 500 ms WARN , 800 ms ERROR and save alerts to /tmp/ping_log.txt . Alerts can be also send on email or slack chanel etc.
+example comand to send email just add it at the end of pingAlert.tick file or insted  .log('/tmp/ping_log.txt') 
+```
+.email('oncall@example.com')
+```
+to add more recivers type after .email()
+```
+.to('support@example.com')
+```
+
+more info about how to write tick scripts can be find 
+https://docs.influxdata.com/kapacitor/v1.2/
+
+##To add new script 
+you need to create proper tick script file in kapacitor folder then add 
+```
+kapacitor define {ALERT NAME} \
+    -type {ALERT TYPE batch/stream} \
+    -tick /var/lib/kapacitor/{FILE NAME} \
+    -dbrp telegraf.autogen
+
+kapacitor enable {ALERT NAME}
+```
+to runKapacitorAlerts.sh file in root dir 
+
+ container need to be rebuild after meking change in files in repository dir.
+ to make experiments just Log into the container and have fun.
+ 
+ all kapacitor propertis and configuration can be changed in kapacitor/kapacitor.conf file
+ for example to send email in alert can be necesery to add smtp configuration.
+ 
+ more infocan be find 
+https://docs.influxdata.com/kapacitor/v1.2/
+
+
 ### Hints
 * Run image as named container
 ```
