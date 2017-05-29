@@ -68,9 +68,17 @@ ENV INFLUX_CONFIG_PATH=/var/lib/influxdb/influxdb.conf \
     KAPACITOR_CONFIG_PATH=/var/lib/kapacitor/kapacitor.conf \
     CHRONOGRAF_CONFIG_PATH=/var/lib/chronograf/chronograf.conf
 
-# Copy scripts: entrypoint.sh which runs all components and runKapacitorAlerts.sh which runs kapacitor alerts and add execute permission
+# Environment variables which store retention policy settings
+ENV RETENTION_POLICY_DURATION=45d \
+    SHARD_GROUP_DURATION=1d
+
+# Copy scripts: entrypoint.sh which runs all components  
+# runKapacitorAlerts.sh which runs kapacitor alerts 
+# retentionPolicyConf.sh which sets up retention policy
+# and add execute permission
 COPY entrypoint.sh /entrypoint.sh
 COPY runKapacitorAlerts.sh /runKapacitorAlerts.sh
-RUN chmod +x entrypoint.sh runKapacitorAlerts.sh
+COPY retentionPolicyConf.sh /retentionPolicyConf.sh
+RUN chmod +x entrypoint.sh runKapacitorAlerts.sh retentionPolicyConf.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
