@@ -61,6 +61,52 @@ More info about available plugins: [Telegraf Github repo](https://github.com/inf
 
 More about default config: [telegraf.conf](./telegraf/telegraf.conf). How to use custom config? see [Custom configuration](#custom-configuration)
 
+### Example usage
+#### scenario 
+we will set up conteiner to work in example configuration, then simulete problems with network and check that charts and alerts works.
+
+#### set up
+Pull from Docker repository
+```
+docker pull pkruczek/tip-network-stats
+```
+start docker conteiner
+```
+docker run --net=host --name=network-stats -p 10000:10000 pkruczek/tip-network-stats
+```
+#### check if it works
+[http://localhost:10000][chronograf]
+
+if you after clicking link can see dashbord with ping statistics everythink is working corectly. 
+
+#### simulate network problems
+
+easiest option to simulate network problems is to unplug ethernet cable from computer or disable wifi cart if using wifi.
+
+you can also turn off router providing internet but it can be impossible, or create delay by seting right configuration on your router.
+
+#### check if it charts works correctly
+go to [http://localhost:10000][chronograf] page then select ping dashbord. you should see that ping is realy high.
+
+then log to docker container 
+```
+docker exec -ti network-stats /bin/bash
+```
+go to tmp catalog
+
+```
+cd tmp
+```
+
+in ping_log.txt file will be new alerts
+to look at new ones execute 
+```
+tail -n0 -F ping_log.txt
+```
+
+if you see any alerts that everything is working correctly
+
+
 ### How to get Docker image?
 
 #### Pull from Docker repository
